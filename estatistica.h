@@ -1,0 +1,12 @@
+void media(NoLista **l);
+void mediaAgrupada(NoLista **l);
+void mediana();
+void medianaAgrupada();
+void moda();
+void modaAgrupada();
+void varianciaDesvio();
+void coeficienteVariacao();
+void curtose();
+void assimetria();
+void separatriz();
+void correlacao();
