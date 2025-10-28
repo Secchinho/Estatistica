@@ -7,6 +7,8 @@ int main(){
     double num = -1;
     int i = 1;
     int op = 0;
+    NoLista *list;
+    criarLista(&list);
 
     menu_inicial:
         printf("\nROL de dados ou dados agrupados?\n");
@@ -22,8 +24,6 @@ int main(){
 
     switch (op){
         case 1:
-            NoLista *list;
-            criarLista(&list);
             printf("Insira os valores (Digite -1 para sair)\n\n");
 
             do{
