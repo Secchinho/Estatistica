@@ -1,7 +1,7 @@
 all: compila
 
 compila: main.o estatistica.o lista.o
-	gcc main.o estatistica.o lista.o -o prog
+	gcc main.o estatistica.o lista.o -o prog -lm
 
 main.o: main.c
 	gcc -c main.c

@@ -15,7 +15,7 @@ int main(){
         printf("-------------------------------------\n");
         printf("1 - ROL de dados\n");
         printf("2 - Dados agrupados\n");
-        printf("99 - Sair\n");
+        printf("3 - Sair\n");
         printf("-------------------------------------\n");
         printf("Opção: ");
         scanf("%d", &op);
@@ -40,7 +40,11 @@ int main(){
                 printf("1 - Média\n");
                 printf("2 - Mediana\n");
                 printf("3 - Moda\n");
-                printf("99 - Sair para o menu\n");
+                printf("4 - Amplitude Total\n");
+                printf("5 - Variância e Desvio Padrão\n");
+                printf("6 - Covariancia\n");
+                printf("7 - Correlação\n");
+                printf("8 - Sair para o menu\n");
                 printf("-------------------------------------\n");
                 printf("Opção: ");
                 scanf("%d", &op);
@@ -58,7 +62,23 @@ int main(){
                         moda(&list);
                         printf("\n");
                         break;
-                    case 99:
+                    case 4:
+                        amplitudeTotal(&list);
+                        printf("\n");
+                        break;
+                    case 5:
+                        varianciaDesvio(&list);
+                        printf("\n");
+                        break;
+                    case 6:
+                        covariancia(&list);
+                        printf("\n");
+                        break;
+                    case 7:
+                        correlacao(&list);
+                        printf("\n");
+                        break;
+                    case 8:
                         printf("Saindo...\n");
                         goto menu_inicial;
                         break;
@@ -107,7 +127,8 @@ int main(){
                 printf("1 - Média Agrupada\n");
                 printf("2 - Mediana Agrupada\n");
                 printf("3 - Moda Agrupada\n");
-                printf("99 - Sair para o menu\n");
+                printf("4 - Variância e Desvio Agrupados\n");
+                printf("5 - Sair para o menu\n");
                 printf("-------------------------------------\n");
                 printf("Opção: ");
                 scanf("%d", &op);
@@ -125,7 +146,11 @@ int main(){
                         modaAgrupada(numClass,frequenciaAbsoluta, limitInf, limitSup);
                         printf("\n");
                         break;
-                   case 99:
+                    case 4:
+                        varianciaDesvioAgrupados(numClass, pontoMedio, frequenciaRelativa, frequenciaAbsoluta, totalAmostra);
+                        printf("\n");
+                        break;
+                   case 5:
                         printf("Saindo...\n");
                         goto menu_inicial;
                         break;
@@ -136,7 +161,7 @@ int main(){
             }while(op != 99);
             break;
         }
-        case 99:
+        case 3:
             printf("Fechando...\n");
             break;
         default:
