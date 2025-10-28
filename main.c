@@ -7,21 +7,23 @@ int main(){
     double num = -1;
     int i = 1;
     int op = 0;
-    NoLista *list;
-    criarLista(&list);
 
     menu_inicial:
         printf("\nROL de dados ou dados agrupados?\n");
         printf("-------------------------------------\n");
         printf("1 - ROL de dados\n");
         printf("2 - Dados agrupados\n");
-        printf("3 - Sair\n");
+        printf("3 - Covariancia\n");
+        printf("4 - Correlação\n");
+        printf("5 - Sair\n");
         printf("-------------------------------------\n");
         printf("Opção: ");
         scanf("%d", &op);
 
     switch (op){
         case 1:
+            NoLista *list;
+            criarLista(&list);
             printf("Insira os valores (Digite -1 para sair)\n\n");
 
             do{
@@ -42,9 +44,7 @@ int main(){
                 printf("3 - Moda\n");
                 printf("4 - Amplitude Total\n");
                 printf("5 - Variância e Desvio Padrão\n");
-                printf("6 - Covariancia\n");
-                printf("7 - Correlação\n");
-                printf("8 - Sair para o menu\n");
+                printf("6 - Sair para o menu\n");
                 printf("-------------------------------------\n");
                 printf("Opção: ");
                 scanf("%d", &op);
@@ -71,19 +71,13 @@ int main(){
                         printf("\n");
                         break;
                     case 6:
-                        covariancia(&list);
-                        printf("\n");
-                        break;
-                    case 7:
-                        correlacao(&list);
-                        printf("\n");
-                        break;
-                    case 8:
                         printf("Saindo...\n");
+                        liberarLista(&list);
                         goto menu_inicial;
                         break;
                     default:
                         printf("Erro!!!\n");
+                        liberarLista(&list);
                         break;
                 }
             }while(op != 99);
@@ -161,7 +155,16 @@ int main(){
             }while(op != 99);
             break;
         }
+
         case 3:
+            covariancia();
+            printf("\n");
+            break;
+        case 4:
+            correlacao();
+            printf("\n");
+            break;
+        case 5:
             printf("Fechando...\n");
             break;
         default:
@@ -169,6 +172,5 @@ int main(){
             break;
     }
 
-    liberarLista(&list);
     return 0;
 }

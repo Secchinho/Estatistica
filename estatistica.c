@@ -191,51 +191,68 @@ void coeficienteVariacao(NoLista **l){
     }
 }
 
-void covariancia(NoLista **l){
+void covariancia(){
     double num = -1;
     double somaMult = 0;
     double covar = 0;
     int i = 1;
-    NoLista *list2;
-    criarLista(&list2);
-    NoLista *q = list2;
 
-    printf("Insira os valores da segunda lista (Digite -1 para sair)\n\n");
+    NoLista *list;
+    criarLista(&list);
+    printf("Insira os valores (Digite -1 para sair)\n\n");
+
     do{
         printf("Valor %d: ", i);
         scanf("%lf", &num);
         if(num == -1)
             break;
 
-        insereOrdenado(&list2, num);
+        insere(&list, num);
         i++;
     }while(1);
 
+    NoLista *list2;
+    criarLista(&list2);
+    
+    printf("Insira os valores da segunda lista (Digite -1 para sair)\n\n");
+    do{
+        printf("Valor %d: ", i);
+        scanf("%lf", &num);
+        if(num == -1)
+        break;
+        
+        insereOrdenado(&list2, num);
+        i++;
+    }while(1);
+    
+    NoLista *q = list2;
     double soma = 0;
     double media1 = 0;
     NoLista *r;
-    for(r = *l; r != NULL; r = r->prox){
+
+    for(r = list; r != NULL; r = r->prox){
         soma += r->info;
     }
-    media1 = soma/qtdElementos(l);
+    media1 = soma/qtdElementos(&list);
 
     double media2 = 0;
     soma = 0;
-    for(r = *l; r != NULL; r = r->prox){
+    for(r = list; r != NULL; r = r->prox){
         soma += r->info;
     }
-    media2 = soma/qtdElementos(l);
+    media2 = soma/qtdElementos(&list);
 
-    for(NoLista *p = *l; p != NULL && q!= NULL; p = p->prox, q = q->prox){
+    for(NoLista *p = list; p != NULL; p = p->prox){
         somaMult += (p->info - media1) * (q->info - media2);
+        q = q->prox;
     }
 
-    covar = somaMult / (qtdElementos(l) - 1);
+    covar = somaMult / (qtdElementos(&list) - 1);
 
     printf("A Covariância é: %.2lf\n", covar);
 }
 
-void correlacao(NoLista **l){
+void correlacao(){
     /*
     double num = -1;
     double somaMult = 0;
@@ -314,7 +331,83 @@ void correlacao(NoLista **l){
 
     liberarLista(&list2);
     */
-   printf("\nEm desenvolvimento...\n");
+
+    double num = -1;
+    double somaMult = 0;
+    double covar = 0;
+    int i = 1;
+
+    NoLista *list;
+    criarLista(&list);
+    printf("Insira os valores (Digite -1 para sair)\n\n");
+
+    do{
+        printf("Valor %d: ", i);
+        scanf("%lf", &num);
+        if(num == -1)
+            break;
+
+        insere(&list, num);
+        i++;
+    }while(1);
+
+    NoLista *list2;
+    criarLista(&list2);
+
+    printf("Insira os valores da segunda lista (Digite -1 para sair)\n\n");
+    i = 1;
+    do{
+        printf("Valor %d: ", i);
+        scanf("%lf", &num);
+        if(num == -1)
+        break;
+        
+        insere(&list2, num);
+        i++;
+    }while(1);
+
+    NoLista *q = list2;
+
+    imprimeElementos(&list2);
+
+    for(NoLista *p = list; p != NULL; p = p->prox){
+        somaMult += (p->info) * (q->info);
+        q = q->prox;
+    }
+
+    double soma1 = 0;
+    for(NoLista *r = list; r != NULL; r = r->prox){
+        soma1 += r->info;
+    }
+
+    double soma2 = 0;
+    for(NoLista *r = list2; r != NULL; r = r->prox){
+        soma2 += r->info;
+    }
+
+    double soma1Quad = 0;
+    for(NoLista *r = list; r != NULL; r = r->prox){
+        soma1Quad += pow(r->info, 2);
+    }
+
+    double soma2Quad = 0;
+    for(NoLista *r = list2; r != NULL; r = r->prox){
+        soma2Quad += pow(r->info, 2);
+    }
+
+    double quadSoma1 = 0;
+    double quadSoma2 = 0;
+
+    quadSoma1 = pow(soma1, 2);
+    quadSoma2 = pow(soma2, 2);
+
+    double correlacao = 0;
+
+    correlacao = (somaMult - ((soma1 * soma2) / qtdElementos(&list))) / (sqrt(soma1Quad - (quadSoma1 / qtdElementos(&list))) * sqrt(soma2Quad - (quadSoma2 / qtdElementos(&list))));
+
+    printf("Soma 1: %.2lf\nSoma 2: %.2lf\nSoma multiplicada: %.2lf\nQuadrado 1: %.2lf\nQuadrado 2: %.2lf\n", soma1, soma2, somaMult, soma1Quad, soma2Quad);
+
+    printf("A correlação é %.2lf\n", correlacao);
 }
 
 

@@ -46,6 +46,31 @@ void insereOrdenado(NoLista **l, double v){
     }
 }
 
+void insere(NoLista **l, double v){
+    NoLista *p, *ant = NULL;
+    NoLista *novo = (NoLista*)malloc(sizeof(NoLista));
+
+    if(novo != NULL){
+        novo->info = v;
+
+        for(p = *l; p != NULL; p = p->prox){
+            ant = p;
+        }
+
+        novo->prox = p;
+        
+        if(ant == NULL){
+            *l = novo;
+        }
+        else{
+            ant->prox = novo;
+        }
+    }
+    else{
+        printf("Não foi possível alocar espaço!\n");
+    }
+}
+
 void imprimeElementos(NoLista **l){
     if(!estaVazia(l)){   
         printf("Os valores são: \n");
