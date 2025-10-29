@@ -412,6 +412,6 @@ void varianciaDesvioAgrupados(int numClass, double pontoMedio[numClass], double 
     }else if(coeficienteVariacao >= 20){
         printf("Alta Dispersao\n");
     }else{
-        printf("Média Dispersao\n");
+        printf("Media Dispersao\n");
     }
 }
