@@ -171,10 +171,12 @@ int main(){
         case 3:
             covariancia();
             printf("\n");
+            goto menu_inicial;
             break;
         case 4:
             correlacao();
             printf("\n");
+            goto menu_inicial;
             break;
         case 5:
             printf("Fechando...\n");
