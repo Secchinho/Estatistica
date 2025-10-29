@@ -5,7 +5,7 @@
 #include "estatistica.h"
 #include "lista.h"
 
-void media(NoLista** l){
+double media(NoLista** l){
     double soma = 0;
     double media = 0;
     NoLista *p;
@@ -14,8 +14,7 @@ void media(NoLista** l){
     }
     media = soma/qtdElementos(l);
 
-    printf("A média é: %.2lf", media);
-
+    return media;
 }
 
 void mediana(NoLista **l){
@@ -28,13 +27,13 @@ void mediana(NoLista **l){
             p = p->prox;
         }
 
-        printf("A mediana é: %.2lf", (p->info + p->prox->info) / 2);
+        printf("A mediana eh: %.2lf", (p->info + p->prox->info) / 2);
     }else{
         for(int i = 0; i < metade; i++){
             p = p->prox;
         }
 
-        printf("A mediana é: %.2lf", p->info);
+        printf("A mediana eh: %.2lf", p->info);
     }
 }
 
@@ -48,7 +47,7 @@ void moda(NoLista **l) {
     int N = qtdElementos(l);
     
     if (N == 1) {
-        printf("Unimodal. A moda é: %.2lf\n", (*l)->info);
+        printf("Unimodal. A moda eh: %.2lf\n", (*l)->info);
         return;
     }
 
@@ -98,11 +97,11 @@ void moda(NoLista **l) {
     } 
     else {
         if (countModes == 1) {
-            printf("Unimodal. A moda é: ");
+            printf("Unimodal. A moda eh: ");
         } else if (countModes == 2) {
-            printf("Bimodal. As modas são: ");
+            printf("Bimodal. As modas sao: ");
         } else {
-            printf("Multimodal. As modas são: ");
+            printf("Multimodal. As modas sao: ");
         }
 
         int impressos = 0;
@@ -115,7 +114,7 @@ void moda(NoLista **l) {
                 }
             }
         }
-        printf(" (frequência: %d)\n", maxFreq);
+        printf(" (frequencia: %d)\n", maxFreq);
     }
 }
 
@@ -133,61 +132,51 @@ void amplitudeTotal(NoLista **l){
 
     amplitudeTotal = maiorValor - menorValor;
 
-    printf("A amplitude total é de: %.2lf\n", amplitudeTotal);
+    printf("A amplitude total eh de: %.2lf\n", amplitudeTotal);
 }
 
-void varianciaDesvio(NoLista **l){
+double variancia(NoLista **l){
     double somaQuad = 0;
-    double soma = 0;
-    double media = 0;
+    double mediaL = 0;
     double variancia = 0;
-    double desvio = 0;
-    
-    for(NoLista *p = *l; p != NULL; p = p->prox){
-        soma += p->info;
-    }
-    media = soma/qtdElementos(l);
+
+    mediaL = media(l);
 
     for(NoLista *p = *l; p != NULL; p = p->prox){
-        somaQuad += pow((p->info - media), 2);
+        somaQuad += pow((p->info - mediaL), 2);
     }
 
     variancia = somaQuad / (qtdElementos(l) - 1);
-    desvio = sqrt(variancia);
 
-    printf("A Variância é: %.2lf\n", variancia);
-    printf("O Desvio Padrão é: %.2lf\n", desvio);
+    return variancia;
+}
+
+double desvio(NoLista **l, double variancia){
+    return sqrt(variancia);
 }
 
 void coeficienteVariacao(NoLista **l){
     double somaQuad = 0;
-    double soma = 0;
-    double media = 0;
-    double variancia = 0;
-    double desvio = 0;
+    double mediaL = 0;
+    double var = 0;
+    double des = 0;
     double coeficienteVar = 0;
     
-    for(NoLista *p = *l; p != NULL; p = p->prox){
-        soma += p->info;
-    }
-    media = soma/qtdElementos(l);
+    mediaL = media(l);
 
-    for(NoLista *p = *l; p != NULL; p = p->prox){
-        somaQuad += pow((p->info - media), 2);
-    }
-    variancia = somaQuad / (qtdElementos(l) - 1);
-    desvio = sqrt(variancia);
+    var = variancia(l);
+    des = desvio(l , var);
 
-    coeficienteVar = (desvio / media) * 100;
+    coeficienteVar = (des / mediaL) * 100;
 
-    printf("O Coeficiente de Variação é de: %.2lf\n", coeficienteVar);
+    printf("O Coeficiente de Variacao eh de: %.2lf\n", coeficienteVar);
 
     if(coeficienteVar <= 10){
-        printf("Baixa Dispersão\n");
+        printf("Baixa Dispersao\n");
     }else if(coeficienteVar >= 20){
-        printf("Alta Dispersão\n");
+        printf("Alta Dispersao\n");
     }else{
-        printf("Média Dispersão\n");
+        printf("Média Dispersao\n");
     }
 }
 
@@ -221,26 +210,18 @@ void covariancia(){
         if(num == -1)
         break;
         
-        insereOrdenado(&list2, num);
+        insere(&list2, num);
         i++;
     }while(1);
     
     NoLista *q = list2;
-    double soma = 0;
     double media1 = 0;
     NoLista *r;
 
-    for(r = list; r != NULL; r = r->prox){
-        soma += r->info;
-    }
-    media1 = soma/qtdElementos(&list);
+    media1 = media(&list);
 
     double media2 = 0;
-    soma = 0;
-    for(r = list; r != NULL; r = r->prox){
-        soma += r->info;
-    }
-    media2 = soma/qtdElementos(&list);
+    media2 = media(&list2);
 
     for(NoLista *p = list; p != NULL; p = p->prox){
         somaMult += (p->info - media1) * (q->info - media2);
@@ -249,13 +230,12 @@ void covariancia(){
 
     covar = somaMult / (qtdElementos(&list) - 1);
 
-    printf("A Covariância é: %.2lf\n", covar);
+    printf("A Covariancia eh: %.2lf\n", covar);
 }
 
 void correlacao(){
     double num = -1;
     double somaMult = 0;
-    double covar = 0;
     int i = 1;
 
     NoLista *list;
@@ -326,19 +306,17 @@ void correlacao(){
 
     correlacao = (somaMult - ((soma1 * soma2) / qtdElementos(&list))) / (sqrt(soma1Quad - (quadSoma1 / qtdElementos(&list))) * sqrt(soma2Quad - (quadSoma2 / qtdElementos(&list))));
 
-    printf("Soma 1: %.2lf\nSoma 2: %.2lf\nSoma multiplicada: %.2lf\nQuadrado 1: %.2lf\nQuadrado 2: %.2lf\n", soma1, soma2, somaMult, soma1Quad, soma2Quad);
-
     printf("A correlação é %.2lf\n", correlacao);
 }
 
 
-void mediaAgrupada(int numClass, double pontoMedio[numClass], double frequenciaRelativa[numClass]){
+double mediaAgrupada(int numClass, double pontoMedio[numClass], double frequenciaRelativa[numClass]){
     double mediaAgrup = 0;
     for(int i = 0; i < numClass; i++){
         mediaAgrup += pontoMedio[i] * frequenciaRelativa[i];
     }
 
-    printf("O valor da média agrupada é: %.2lf", mediaAgrup);
+    return mediaAgrup;
 }
 
 void medianaAgrupada(int numClass, int totalAmostra, int frequenciaAbsoluta[numClass], double limitInf[numClass], double limitSup[numClass]){
@@ -368,7 +346,7 @@ void medianaAgrupada(int numClass, int totalAmostra, int frequenciaAbsoluta[numC
 
     medianaAgrupada = linfMd + (((totalAmostra / 2) - totalFreqAbsolAnt) * amplitudeClasse) / freqAbsolClasse;
 
-    printf("A mediana agrupada é: %.2lf", medianaAgrupada);
+    printf("A mediana agrupada eh: %.2lf", medianaAgrupada);
 
 }
 
@@ -403,7 +381,7 @@ void modaAgrupada(int numClass, int frequenciaAbsoluta[numClass], double limitIn
 
     modaAgrupada = limInfMod + (delta1 * amplitude)/(delta1 + delta2);
 
-    printf("A moda agrupada é: %.2lf\n", modaAgrupada);
+    printf("A moda agrupada eh: %.2lf\n", modaAgrupada);
 }
 
 void varianciaDesvioAgrupados(int numClass, double pontoMedio[numClass], double frequenciaRelativa[numClass], int frequenciaAbsoluta[numClass], int totalAmostra){
@@ -413,9 +391,7 @@ void varianciaDesvioAgrupados(int numClass, double pontoMedio[numClass], double 
     double desvioAgrup = 0;
     double coeficienteVariacao = 0;
 
-    for(int i = 0; i < numClass; i++){
-        mediaAgrup += pontoMedio[i] * frequenciaRelativa[i];
-    }
+    mediaAgrup = mediaAgrupada(numClass, pontoMedio, frequenciaRelativa);
 
     for(int i = 0; i < numClass; i++){
         somaQuad += pow((pontoMedio[i] - mediaAgrup), 2) * frequenciaAbsoluta[i];
@@ -426,16 +402,16 @@ void varianciaDesvioAgrupados(int numClass, double pontoMedio[numClass], double 
 
     coeficienteVariacao = (desvioAgrup / mediaAgrup) * 100;
 
-    printf("A Variância Agrupada é: %.2lf\n", varianciaAgrup);
-    printf("O Desvio Agrupado é: %.2lf\n", desvioAgrup);
+    printf("A Variancia Agrupada eh: %.2lf\n", varianciaAgrup);
+    printf("O Desvio Agrupado eh: %.2lf\n", desvioAgrup);
 
-    printf("O Coeficiente de Variação é de: %.2lf\n", coeficienteVariacao);
+    printf("O Coeficiente de Variacao eh de: %.2lf\n", coeficienteVariacao);
 
     if(coeficienteVariacao <= 10){
-        printf("Baixa Dispersão\n");
+        printf("Baixa Dispersao\n");
     }else if(coeficienteVariacao >= 20){
-        printf("Alta Dispersão\n");
+        printf("Alta Dispersao\n");
     }else{
-        printf("Média Dispersão\n");
+        printf("Média Dispersao\n");
     }
 }

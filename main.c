@@ -16,10 +16,10 @@ int main(){
         printf("1 - ROL de dados\n");
         printf("2 - Dados agrupados\n");
         printf("3 - Covariancia\n");
-        printf("4 - Correlação\n");
+        printf("4 - Correlacao\n");
         printf("5 - Sair\n");
         printf("-------------------------------------\n");
-        printf("Opção: ");
+        printf("Opcao: ");
         scanf("%d", &op);
 
     switch (op){
@@ -37,21 +37,23 @@ int main(){
             }while(1);
 
             do{
-                printf("\nDigite a operação desejada: \n");
+                printf("\nDigite a operacao desejada: \n");
                 printf("-------------------------------------\n");
-                printf("1 - Média\n");
+                printf("1 - Media\n");
                 printf("2 - Mediana\n");
                 printf("3 - Moda\n");
                 printf("4 - Amplitude Total\n");
-                printf("5 - Variância e Desvio Padrão\n");
-                printf("6 - Sair para o menu\n");
+                printf("5 - Coeficiente de Variacao\n");
+                printf("6 - Variancia e Desvio Padrao\n");
+                printf("7 - Imprime lista\n");
+                printf("8 - Sair para o menu\n");
                 printf("-------------------------------------\n");
-                printf("Opção: ");
+                printf("Opcao: ");
                 scanf("%d", &op);
 
                 switch (op){
                     case 1:
-                        media(&list);
+                        printf("A media eh: %.2lf", media(&list));
                         printf("\n");
                         break;
                     case 2:
@@ -67,10 +69,20 @@ int main(){
                         printf("\n");
                         break;
                     case 5:
-                        varianciaDesvio(&list);
+                        coeficienteVariacao(&list);
                         printf("\n");
                         break;
                     case 6:
+                        double var = variancia(&list);
+                        printf("A Variancia eh: %.2lf\n", var);
+                        printf("O Desvio Padrao eh: %.2lf\n", desvio(&list, var));
+                        printf("\n");
+                        break;
+                    case 7:
+                        imprimeElementos(&list);
+                        printf("\n");
+                        break;
+                    case 8:
                         printf("Saindo...\n");
                         liberarLista(&list);
                         goto menu_inicial;
@@ -101,7 +113,7 @@ int main(){
                 scanf("%lf", &limitInf[j]);
                 printf("Digite o limite superior da classe %d: ", j + 1);
                 scanf("%lf", &limitSup[j]);
-                printf("Digite a Frequência Absoluta da classe %d: ", j + 1);
+                printf("Digite a Frequencia Absoluta da classe %d: ", j + 1);
                 scanf("%d", &frequenciaAbsoluta[j]);
                 pontoMedio[j] = (limitInf[j] + limitSup[j]) / 2.0;
                 totalAmostra += frequenciaAbsoluta[j];
@@ -110,26 +122,26 @@ int main(){
             printf("\n");
 
             for(int j = 0; j < numClass; j++){
-                printf("\nO ponto médio da classe %d é: %.2lf\n", j + 1, pontoMedio[j]);
+                printf("\nO ponto medio da classe %d eh: %.2lf\n", j + 1, pontoMedio[j]);
                 frequenciaRelativa[j] = (double)frequenciaAbsoluta[j] / totalAmostra;
-                printf("A frequência relativa da classe %d é: %.2lf\n", j + 1, frequenciaRelativa[j]);
+                printf("A frequência relativa da classe %d eh: %.2lf\n", j + 1, frequenciaRelativa[j]);
             }
 
             do{
-                printf("\nDigite a operação desejada: \n");
+                printf("\nDigite a operacao desejada: \n");
                 printf("-------------------------------------\n");
-                printf("1 - Média Agrupada\n");
+                printf("1 - Media Agrupada\n");
                 printf("2 - Mediana Agrupada\n");
                 printf("3 - Moda Agrupada\n");
-                printf("4 - Variância e Desvio Agrupados\n");
+                printf("4 - Variancia e Desvio Agrupados\n");
                 printf("5 - Sair para o menu\n");
                 printf("-------------------------------------\n");
-                printf("Opção: ");
+                printf("Opcao: ");
                 scanf("%d", &op);
 
                 switch (op){
                     case 1:
-                        mediaAgrupada(numClass, pontoMedio, frequenciaRelativa);
+                        printf("O valor da media agrupada eh: %.2lf", mediaAgrupada(numClass, pontoMedio, frequenciaRelativa));
                         printf("\n");
                         break;
                     case 2:
@@ -168,7 +180,7 @@ int main(){
             printf("Fechando...\n");
             break;
         default:
-            printf("Erro!!! Opção inválida\n");
+            printf("Erro!!! Opcao invalida\n");
             break;
     }
 
