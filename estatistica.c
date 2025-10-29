@@ -269,8 +269,6 @@ void correlacao(){
 
     NoLista *q = list2;
 
-    imprimeElementos(&list2);
-
     for(NoLista *p = list; p != NULL; p = p->prox){
         somaMult += (p->info) * (q->info);
         q = q->prox;
