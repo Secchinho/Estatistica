@@ -304,7 +304,24 @@ void correlacao(){
 
     correlacao = (somaMult - ((soma1 * soma2) / qtdElementos(&list))) / (sqrt(soma1Quad - (quadSoma1 / qtdElementos(&list))) * sqrt(soma2Quad - (quadSoma2 / qtdElementos(&list))));
 
-    printf("A correlação é %.2lf\n", correlacao);
+    printf("A Correlacao eh %.2lf\n", correlacao);
+
+    if(correlacao > 0 && correlacao < 1){
+        printf("A Correlacao eh positiva\n");
+    }else if (correlacao < 0 && correlacao > -1){
+        printf("A Correlacao eh negativa\n");
+        correlacao = correlacao * -1;
+    }else{
+        printf("A Correlacao eh nula\n");
+    }
+
+    if(correlacao >= 0 && correlacao <= 0.5){
+        printf("Eh uma relacao linear fraca\n");
+    }else if (correlacao < 0.5 && correlacao <= 0.8){
+        printf("Eh uma relacao linear moderada\n");
+    }else{
+        printf("Eh uma relacao linear forte\n");
+    }
 }
 
 
